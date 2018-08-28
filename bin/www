@@ -3,16 +3,19 @@
 /**
  * Module dependencies.
  */
-
+//引入app=express()
 var app = require('../app');
+//日志记录器，通过修改debug的环境变量来改变日志的输出
 var debug = require('debug')('studyblog:server');
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
+ * 从环境变量中获取端口号，并保存到APP中  
  */
 
 var port = normalizePort(process.env.PORT || '3000');
+//设置保存到了app.settings的属性中 
 app.set('port', port);
 
 /**
@@ -22,6 +25,7 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * 监听提供的端口
  * Listen on provided port, on all network interfaces.
  */
 
@@ -64,10 +68,12 @@ function onError(error) {
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
+    //没有权限，在Linux中，用户不能使用1000以下的端口，80必须root的用户才能用
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
+    //error address in use 端口被占用
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
       process.exit(1);
@@ -82,6 +88,7 @@ function onError(error) {
  */
 
 function onListening() {
+  //先获取到绑定的地址
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
